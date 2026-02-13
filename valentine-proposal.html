@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Love Written in the Stars</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #0f1021, #1a1a2e);
+        }
+        h1, h2 {
+            font-family: 'Great Vibes', cursive;
+        }
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="white" opacity="0.8"/><circle cx="20" cy="30" r="0.5" fill="white" opacity="0.6"/><circle cx="80" cy="70" r="0.5" fill="white" opacity="0.7"/><circle cx="40" cy="80" r="0.3" fill="white" opacity="0.5"/><circle cx="60" cy="20" r="0.4" fill="white" opacity="0.6"/></svg>') repeat;
+            animation: twinkle 3s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .button {
+            background: linear-gradient(45deg, #ffd166, #ff4d6d);
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 20px rgba(255, 209, 102, 0.5);
+        }
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 209, 102, 0.8);
+        }
+        .parallax {
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 24px;
+            animation: float 5s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+        .memory-circle {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffd166, #ff4d6d);
+            border-radius: 50%;
+            margin: 20px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 20px rgba(255, 209, 102, 0.5);
+        }
+        .memory-circle:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px rgba(255, 209, 102, 0.8);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 16, 33, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #0f1021, #ff4d6d);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+        }
+        .envelope {
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(45deg, #ffd166, #ff4d6d);
+            position: relative;
+            margin: 20px auto;
+            cursor: pointer;
+            transition: transform 0.5s;
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #0f1021;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+        }
+        .envelope.open::before {
+            transform: rotateX(180deg);
+        }
+        .letter {
+            display: none;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .typing {
+            border-right: 2px solid white;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: white; }
+        }
+        .proposal {
+            background: radial-gradient(circle, rgba(255, 77, 109, 0.3), #0f1021);
+        }
+        .yes-btn {
+            background: #ff4d6d;
+            font-size: 24px;
+            padding: 20px 40px;
+        }
+        .no-btn {
+            background: grey;
+            font-size: 14px;
+            position: absolute;
+            transition: transform 0.5s;
+        }
+        .fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffd166;
+            border-radius: 50%;
+            animation: explode 2s forwards;
+        }
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(10); opacity: 0; }
+        }
+        .confetti {
+            position: absolute;
+            width: 5px;
+            height: 20px;
+            background: #ff4d6d;
+            animation: fall 3s linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+        .ending {
+            background: linear-gradient(135deg, #ff4d6d, #ffd166);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <!-- Opening Screen -->
+    <section id="intro" class="section">
+        <h1 class="fade-in">A Love Story Written By Destiny…</h1>
+        <button class="button fade-in" id="start-btn">✨ Begin Our Story</button>
+    </section>
+    
+    <!-- Scrolling Love Story Timeline -->
+    <section id="timeline" class="section parallax" style="background-image: url('https://source.unsplash.com/featured/?stars,romantic'); display: none;">
+        <div class="hearts" id="hearts-container"></div>
+        <div class="section">
+            <h2>The Day We Met</h2>
+            <p>Placeholder: It was a serendipitous moment under the city lights, where our eyes met and the world faded away...</p>
+        </div>
+        <div class="section">
+            <h2>The Moments That Changed Everything</h2>
+            <p>Placeholder: From quiet walks to laughter-filled nights, every second with you rewrote my destiny...</p>
+        </div>
+        <div class="section">
+            <h2>The Way You Make Me Feel</h2>
+            <p class="glow">You light up my soul like the stars above, making every day magical.</p>
+        </div>
+    </section>
+    
+    <!-- Memory Galaxy -->
+    <section id="memories" class="section" style="background: #0f1021; display: none;">
+        <h2>Our Memory Galaxy</h2>
+        <div id="memory-circles">
+            <div class="memory-circle" data-image="https://source.unsplash.com/featured/?couple,romantic" data-caption="Our first date under the stars."></div>
+            <div class="memory-circle" data-image="https://source.unsplash.com/featured/?kiss,romantic" data-caption="That magical kiss that sealed our fate."></div>
+            <div class="memory-circle" data-image="https://source.unsplash.com/featured/?adventure,romantic" data-caption="Adventures that made us inseparable."></div>
+        </div>
+        <div class="modal" id="memory-modal">
+            <div class="modal-content">
+                <img id="modal-image" src="" alt="Memory" style="width: 100%; border-radius: 10px;">
+                <p id="modal-caption"></p>
+                <button class="button" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Secret Love Letter -->
+    <section id="letter" class="section" style="display: none;">
+        <h2>You Have a Secret Message…</h2>
+        <div class="envelope" id="envelope">
+            <button class="button" id="open-letter">🔐 Open It</button>
+        </div>
+        <div class="letter" id="love-letter">
+            <p id="typed-letter"></p>
+        </div>
+    </section>
+    
+    <!-- The Proposal -->
+    <section id="proposal" class="section proposal" style="display: none;">
+        <h2 id="proposal-text"></h2>
+        <button class="button yes-btn" id="yes-btn">💖 YES</button>
+        <button class="button no-btn" id="no-btn">🙈 No</button>
+        <div class="fireworks" id="fireworks"></div>
+        <div class="hearts" id="confetti-container"></div>
+    </section>
+    
+    <!-- Final Ending -->
+    <section id="ending" class="section ending" style="display: none;">
+        <h2>Made With Infinite Love ❤️</h2>
+        <div class="hearts" id="ending-hearts"></div>
+    </section>
+    
+    <audio id="bg-music" src="romantic-music.mp3" loop></audio>
+    
+    <script>
+        // Opening Screen
+        document.getElementById('start-btn').addEventListener('click', () => {
+            document.getElementById('bg-music').play();
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('timeline').style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+        
+        // Parallax and Hearts
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.querySelector('.parallax').style.transform = `translateY(${scrolled * 0.5}px)`;
+            if (Math.random() > 0.95) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                document.getElementById('hearts-container').appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }
+        });
+        
+        // Memory Galaxy
+        document.querySelectorAll('.memory-circle').forEach(circle => {
+            circle.addEventListener('click', () => {
+                const modal = document.getElementById('memory-modal');
+                document.getElementById('modal-image').src = circle.dataset.image;
+                document.getElementById('modal-caption').textContent = circle.dataset.caption;
+                modal.style.display = 'flex';
+            });
+        });
+        function closeModal() {
+            document.getElementById('memory-modal').style.display = 'none';
+        }
+        
+        // Secret Love Letter
+        document.getElementById('open-letter').addEventListener('click', () => {
+            document.getElementById('envelope').classList.add('open');
+            document.getElementById('love-letter').style.display = 'block';
+            typeText("I didn’t believe in forever until I met you…", 'typed-letter');
+        });
+        function typeText(text, elementId) {
+            const element = document.getElementById(elementId);
+            element.textContent = '';
+            let i = 0;
+            const interval = setInterval(() => {
+                element.textContent += text[i];
+                i++;
+                if (i >= text.length) clearInterval(interval);
+            }, 100);
+        }
+        
+        // The Proposal
+        typeText("In a world full of billions… I choose you. Will You Be My Forever?", 'proposal-text');
+        document.getElementById('no-btn').addEventListener('click', () => {
+            document.getElementById('no-btn').style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)`;
+            alert("You can run, but you can’t escape destiny 😜");
+        });
+        document.getElementById('yes-btn').addEventListener('click', () => {
+            // Fireworks
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                document.getElementById('fireworks').appendChild(particle);
+                setTimeout(() => particle.remove(), 2000);
+            }
+            // Confetti
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = Math.random() > 0.5 ? '#ff4d6d' : '#ffd166';
+                document.getElementById('confetti-container').appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+            setTimeout(() => {
+                document.getElementById('proposal').style.display = 'none';
+                document.getElementById('ending').style.display = 'flex';
+            }, 3000);
+        });
+        
+        // Ending Hearts
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            document.getElementById('ending-hearts').appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }, 1000);
+    </script>
+</body>
+</html>
